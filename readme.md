@@ -49,8 +49,7 @@ IndicF5/
 ├── app.py                # FastAPI backend application
 ├── requirements.txt      # Python dependencies
 ├── README.md             # Project documentation
-├── prompts/
-│   └── ref.wav           # Reference audio for voice cloning
+├── ref.wav          # Reference audio for voice cloning
 ├── static/
 │   └── index.html        # Frontend user interface
 └── outputs/
