@@ -151,9 +151,9 @@ The application provides detailed logs for monitoring performance:
 
 | Metric | Typical Duration | Notes |
 | :--- | :--- | :--- |
-| **LLM Response** | < 1 sec | Qwen is extremely fast. |
-| **TTS Synthesis** | 30–90 sec | IndicF5 is quality-first, not real-time. |
-| **Total Request** | 30–90 sec | Depends on response length. |
+| **LLM Response** | < 2.5 sec | Qwen is extremely fast. |
+| **TTS Synthesis** | 60–90 sec | IndicF5 is quality-first, not real-time. |
+| **Total Request** | 120–160 sec | Depends on response length. |
 
 **Example Log Output:**
 ```text
