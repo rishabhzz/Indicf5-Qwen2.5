@@ -152,8 +152,8 @@ The application provides detailed logs for monitoring performance:
 | Metric | Typical Duration | Notes |
 | :--- | :--- | :--- |
 | **LLM Response** | < 2.5 sec | Qwen is extremely fast. |
-| **TTS Synthesis** | 60–90 sec | IndicF5 is quality-first, not real-time. |
-| **Total Request** | 120–160 sec | Depends on response length. |
+| **TTS Synthesis** | 2–5 sec | IndicF5 is quality-first, not real-time. |
+| **Total Request** | 5–10 sec | Depends on response length. |
 
 **Example Log Output:**
 ```text
@@ -161,8 +161,8 @@ The application provides detailed logs for monitoring performance:
 [INFO] LLM raw response: ...
 [INFO] LLM final response: फोन से QR स्कैन करके भुगतान होता है।
 [INFO] LLM time: 0.41s
-[INFO] TTS time: 92.30s
-[INFO] Total request time: 92.71s
+[INFO] TTS time: 9.30s
+[INFO] Total request time: 9.71s
 ```
 
 > **Note**: The first request after startup may take longer due to model warm-up.
