@@ -82,6 +82,7 @@ Update pip and install required packages:
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+pip install git+https://github.com/ai4bharat/IndicF5.git
 ```
 
 Install GPU-optimized PyTorch:
