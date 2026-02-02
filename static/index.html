@@ -20,7 +20,7 @@
 
       <textarea
         id="question"
-        placeholder="अपना सवाल यहाँ लिखें..."
+        placeholder="Ask your question here..."
         class="w-full h-28 sm:h-24 resize-none rounded-xl bg-slate-800 p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
       ></textarea>
 
@@ -29,7 +29,7 @@
         id="askBtn"
         class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 transition rounded-xl py-3 sm:py-2 text-sm font-medium disabled:opacity-60"
       >
-        <span id="btnText">पूछें और सुनें</span>
+        <span id="btnText">Ask Qwen</span>
 
         <!-- Spinner -->
         <svg
@@ -82,8 +82,8 @@
 
     btn.disabled = true;
     spinner.classList.remove("hidden");
-    btnText.innerText = "बन रहा है...";
-    status.innerText = "उत्तर तैयार किया जा रहा है...";
+    btnText.innerText = "working...";
+    status.innerText = "Generating audio...";
     audio.classList.add("hidden");
     audio.src = "";
 
@@ -99,13 +99,13 @@
       audio.classList.remove("hidden");
       audio.play();
 
-      status.innerText = "तैयार है";
+      status.innerText = "Ready ✅";
     } catch (e) {
-      status.innerText = "कुछ गड़बड़ हो गई";
+      status.innerText = "Something went wrong. Please try again.";
     }
 
     spinner.classList.add("hidden");
-    btnText.innerText = "पूछें और सुनें";
+    btnText.innerText = "Ask Qwen";
     btn.disabled = false;
   };
 </script>
