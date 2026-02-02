@@ -122,7 +122,7 @@ Place a clean Hindi audio sample in the `prompts/` directory.
 ### Start the Server
 
 ```bash
-uvicorn app:app --host 0.0.0.0 --port 8000
+uvicorn app:app --host 0.0.0.0 --port 8000 --workers 1
 ```
 
 ### Access the Web UI
