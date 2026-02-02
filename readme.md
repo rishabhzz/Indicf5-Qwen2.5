@@ -67,6 +67,7 @@ Create and activate a clean Conda environment:
 ```bash
 conda create -n indicf5 python=3.10 -y
 conda activate indicf5
+pip install git+https://github.com/ai4bharat/IndicF5.git
 ```
 
 > If `conda` is not found, source it first:
@@ -81,7 +82,6 @@ Update pip and install required packages:
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
-pip install git+https://github.com/ai4bharat/IndicF5.git
 ```
 
 Install GPU-optimized PyTorch:
