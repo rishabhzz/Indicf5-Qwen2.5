@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 LLM_ID = "Qwen/Qwen2.5-3B-Instruct"
 TTS_ID = "ai4bharat/IndicF5"
 
-REF_AUDIO = "ref.wav"
+REF_AUDIO = "prompts/ref.wav"
 REF_TEXT = "उनकी चेलाही और उपरोहिती के कुछ घर ज़रूर हरि दत्त पंडित को मिलेंगे, लेकिन ये घर भी मामूली किसानों के ही थे"
 
 # -------------------------------------------------
@@ -55,6 +55,21 @@ tts = AutoModel.from_pretrained(
     TTS_ID,
     trust_remote_code=True
 )
+
+# ---- MOVE TO GPU PROPERLY ----
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+tts = tts.to(device)
+tts.eval()
+
+logger.info("Warming up TTS on GPU...")
+with torch.no_grad():
+    _ = tts(
+        "नमस्ते",
+        ref_audio_path=REF_AUDIO,
+        ref_text=REF_TEXT
+    )
+logger.info("TTS warm-up done")
+
 
 # -------------------------------------------------
 # Warm-up TTS
@@ -92,7 +107,7 @@ def generate_llm_answer(question: str, strict: bool = False) -> str:
             "यूज़र का सवाल किसी भी भाषा में हो सकता है। "
             "लेकिन जवाब केवल देवनागरी लिपि में, सरल और बोलचाल की हिंदी में ही देना है। "
             "अंग्रेज़ी या किसी और भाषा का उपयोग बिल्कुल मत करो। "
-            "जवाब 1 या 2 छोटी पंक्तियों में ही हो। "
+            "जवाब 3 या 4 पंक्तियों में ही हो। "
             "अगर जवाब हिंदी में न बने, तो उसे हिंदी में दोबारा लिखो। "
             "जवाब हिंदी शब्द से शुरू होना चाहिए।"
         )
@@ -100,7 +115,7 @@ def generate_llm_answer(question: str, strict: bool = False) -> str:
         system_prompt = (
             "यूज़र का सवाल किसी भी भाषा में हो सकता है। "
             "लेकिन जवाब केवल सरल, बोलचाल की हिंदी में देना है। "
-            "जवाब 1 या 2 छोटी पंक्तियों में हो। "
+            "जवाब 3 या 4 पंक्तियों में हो। "
             "ज़्यादा समझाना या औपचारिक भाषा मत इस्तेमाल करना।"
         )
 
@@ -120,7 +135,7 @@ def generate_llm_answer(question: str, strict: bool = False) -> str:
     with torch.no_grad():
         output_ids = llm.generate(
             **inputs,
-            max_new_tokens=120,
+            max_new_tokens=150,
             temperature=0.3 if strict else 0.5,
             top_p=0.9
         )
@@ -181,11 +196,13 @@ def ask_and_speak(req: AskRequest):
 
     # ---------- TTS ----------
     tts_start = time.time()
-    audio = tts(
-        final_text,
-        ref_audio_path=REF_AUDIO,
-        ref_text=REF_TEXT
-    )
+    with torch.no_grad():
+        audio = tts(
+            final_text,
+            ref_audio_path=REF_AUDIO,
+            ref_text=REF_TEXT
+        )
+
     tts_time = time.time() - tts_start
 
     if audio.dtype == np.int16:
