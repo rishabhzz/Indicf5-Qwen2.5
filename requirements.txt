@@ -1,0 +1,14 @@
+# Core
+numpy
+soundfile
+
+# Hugging Face / LLM
+transformers
+accelerate
+sentencepiece
+safetensors
+
+# Web backend
+fastapi
+uvicorn
+python-multipart
