@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 LLM_ID = "Qwen/Qwen2.5-3B-Instruct"
 TTS_ID = "ai4bharat/IndicF5"
 
-REF_AUDIO = "prompts/ref.wav"
+REF_AUDIO = "ref.wav"
 REF_TEXT = "उनकी चेलाही और उपरोहिती के कुछ घर ज़रूर हरि दत्त पंडित को मिलेंगे, लेकिन ये घर भी मामूली किसानों के ही थे"
 
 # -------------------------------------------------
