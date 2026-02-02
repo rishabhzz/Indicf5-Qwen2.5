@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hindi AI Speaker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center px-4">
+
+  <div class="w-full max-w-md">
+    
+    <!-- Card -->
+    <div class="bg-slate-900 rounded-2xl shadow-xl p-5 sm:p-6 space-y-4">
+      
+      <h1 class="text-lg sm:text-xl font-semibold text-center">
+        Hindi AI Speaker
+      </h1>
+
+      <textarea
+        id="question"
+        placeholder="अपना सवाल यहाँ लिखें..."
+        class="w-full h-28 sm:h-24 resize-none rounded-xl bg-slate-800 p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+      ></textarea>
+
+      <!-- Button -->
+      <button
+        id="askBtn"
+        class="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 transition rounded-xl py-3 sm:py-2 text-sm font-medium disabled:opacity-60"
+      >
+        <span id="btnText">पूछें और सुनें</span>
+
+        <!-- Spinner -->
+        <svg
+          id="spinner"
+          class="hidden animate-spin h-4 w-4 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Status -->
+      <p id="status" class="text-xs text-slate-400 text-center"></p>
+
+      <!-- Audio -->
+      <audio id="audio" class="w-full hidden mt-2" controls></audio>
+    </div>
+
+    <!-- Footer -->
+    <p class="text-center text-xs text-slate-500 mt-4">
+      Powered by LLM + IndicF5
+    </p>
+
+  </div>
+
+<script>
+  const btn = document.getElementById("askBtn");
+  const btnText = document.getElementById("btnText");
+  const spinner = document.getElementById("spinner");
+  const status = document.getElementById("status");
+  const audio = document.getElementById("audio");
+
+  btn.onclick = async () => {
+    const question = document.getElementById("question").value.trim();
+    if (!question) return;
+
+    btn.disabled = true;
+    spinner.classList.remove("hidden");
+    btnText.innerText = "बन रहा है...";
+    status.innerText = "उत्तर तैयार किया जा रहा है...";
+    audio.classList.add("hidden");
+    audio.src = "";
+
+    try {
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+
+      const blob = await res.blob();
+      audio.src = URL.createObjectURL(blob);
+      audio.classList.remove("hidden");
+      audio.play();
+
+      status.innerText = "तैयार है";
+    } catch (e) {
+      status.innerText = "कुछ गड़बड़ हो गई";
+    }
+
+    spinner.classList.add("hidden");
+    btnText.innerText = "पूछें और सुनें";
+    btn.disabled = false;
+  };
+</script>
+
+</body>
+</html>
